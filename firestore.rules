@@ -1,0 +1,51 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default locked
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Health check ping
+    match /test/{testId} {
+      allow get: if true;
+    }
+
+    // Helper functions
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.email == 'ciyacademy@gmail.com' ||
+        request.auth.token.email == 'comwebdot@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.token.email.lower().replace('[^a-z0-9]', '_')))
+      );
+    }
+
+    // Farm Fresh Produce Catalog: Managed by authorized administrators
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Admins registry: Managed by super admins
+    match /admins/{adminId} {
+      allow read: if true;
+      allow write: if request.auth != null && (
+        request.auth.token.email == 'ciyacademy@gmail.com' ||
+        request.auth.token.email == 'comwebdot@gmail.com'
+      );
+    }
+
+    // User Profiles: private to the owner
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Site Settings: Publicly readable, managed by admins
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

@@ -1,0 +1,340 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Customer delivery profile, address, and food sourcing preferences",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The unique Firebase Auth UID of the customer",
+          "maxLength": 128
+        },
+        "fullName": {
+          "type": "string",
+          "description": "Full name of the recipient",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address",
+          "format": "email",
+          "maxLength": 150
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "Contact phone number for logistics and dispatch riders",
+          "minLength": 7,
+          "maxLength": 30
+        },
+        "streetAddress": {
+          "type": "string",
+          "description": "Detailed street address and apartment or house number",
+          "minLength": 3,
+          "maxLength": 300
+        },
+        "cityArea": {
+          "type": "string",
+          "description": "Neighborhood or district area",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "state": {
+          "type": "string",
+          "description": "State within Nigeria",
+          "minLength": 2,
+          "maxLength": 50
+        },
+        "deliveryNotes": {
+          "type": "string",
+          "description": "Optional delivery instructions or gate security instructions",
+          "maxLength": 500
+        },
+        "dietaryPreference": {
+          "type": "string",
+          "description": "Primary grocery sourcing preference",
+          "maxLength": 100
+        },
+        "favoriteCategory": {
+          "type": "string",
+          "description": "Preferred delivery time window",
+          "maxLength": 100
+        },
+        "completedAt": {
+          "type": "string",
+          "description": "Timestamp formatted string when the profile was completed",
+          "maxLength": 100
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of last update",
+          "maxLength": 100
+        }
+      },
+      "required": [
+        "userId",
+        "fullName",
+        "email",
+        "phoneNumber",
+        "streetAddress",
+        "cityArea",
+        "state"
+      ]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Administrator account with hierarchical role-based privileges",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Sanitized email or UID of the admin user",
+          "maxLength": 128
+        },
+        "email": {
+          "type": "string",
+          "description": "Gmail address of the admin staff",
+          "format": "email",
+          "maxLength": 150
+        },
+        "name": {
+          "type": "string",
+          "description": "Full name or designation of the administrator",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "role": {
+          "type": "string",
+          "description": "Admin rank defining operation permissions",
+          "enum": ["super_admin", "manager", "supervisor", "sales_rep"]
+        },
+        "addedBy": {
+          "type": "string",
+          "description": "Email or ID of the super admin who provisioned this staff account",
+          "maxLength": 150
+        },
+        "addedAt": {
+          "type": "string",
+          "description": "ISO date string when role was assigned",
+          "maxLength": 100
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO date string of last profile update",
+          "maxLength": 100
+        },
+        "isImmutable": {
+          "type": "boolean",
+          "description": "Flag for root super admin comwebdot@gmail.com which cannot be removed or altered"
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "name",
+        "role"
+      ]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Farm fresh grocery or harvest inventory item",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique product code or slug",
+          "maxLength": 128
+        },
+        "name": {
+          "type": "string",
+          "description": "Common product title",
+          "minLength": 2,
+          "maxLength": 150
+        },
+        "localName": {
+          "type": "string",
+          "description": "Traditional Nigerian market designation",
+          "maxLength": 150
+        },
+        "category": {
+          "type": "string",
+          "description": "Produce classification (e.g. Fresh Vegetables, Roots & Tubers)",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "price": {
+          "type": "number",
+          "description": "Unit price in Nigerian Naira"
+        },
+        "originalPrice": {
+          "type": "number",
+          "description": "Optional regular price before discount"
+        },
+        "rating": {
+          "type": "number",
+          "description": "Customer score between 1.0 and 5.0"
+        },
+        "reviewsCount": {
+          "type": "number",
+          "description": "Number of validated customer reviews"
+        },
+        "freshnessScore": {
+          "type": "number",
+          "description": "Quality score percentage between 0 and 100"
+        },
+        "freshnessText": {
+          "type": "string",
+          "description": "Harvest indicator e.g. Harvested yesterday morning",
+          "maxLength": 150
+        },
+        "origin": {
+          "type": "string",
+          "description": "Farm source region e.g. Jos, Plateau State",
+          "maxLength": 150
+        },
+        "description": {
+          "type": "string",
+          "description": "Product details and culinary usage",
+          "maxLength": 1000
+        },
+        "size": {
+          "type": "string",
+          "description": "Standard packaging size",
+          "maxLength": 100
+        },
+        "stock": {
+          "type": "number",
+          "description": "Available harvest units in warehouse"
+        },
+        "isOrganic": {
+          "type": "boolean",
+          "description": "Whether pesticide and chemical preservative free"
+        },
+        "isImported": {
+          "type": "boolean",
+          "description": "Domestic farm vs imported item"
+        },
+        "deliveryTimeEstimate": {
+          "type": "string",
+          "description": "Logistics dispatch estimate",
+          "maxLength": 100
+        },
+        "cloudinaryPublicId": {
+          "type": "string",
+          "description": "Unique Cloudinary asset ID for automated cleanup",
+          "maxLength": 255
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of last inventory modification",
+          "maxLength": 100
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "category",
+        "price",
+        "stock",
+        "description"
+      ]
+    },
+    "AppSettings": {
+      "title": "AppSettings",
+      "description": "Global application configuration for hero sections and cinematic assets",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the configuration document, typically 'global_config'",
+          "maxLength": 128
+        },
+        "heroHeading": {
+          "type": "string",
+          "description": "Main title displayed on the hero banner",
+          "maxLength": 300
+        },
+        "heroSubheading": {
+          "type": "string",
+          "description": "Subheading text displayed below the hero title",
+          "maxLength": 1000
+        },
+        "heroVideoUrl": {
+          "type": "string",
+          "description": "Secure URL to the cinematic background video hosted on Cloudinary",
+          "maxLength": 1000
+        },
+        "heroVideoPublicId": {
+          "type": "string",
+          "description": "Cloudinary public ID for the hero video asset",
+          "maxLength": 255
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of the last configuration update",
+          "maxLength": 100
+        },
+        "minImageSizeMb": { "type": "number" },
+        "maxImageSizeMb": { "type": "number" },
+        "minVideoSizeMb": { "type": "number" },
+        "maxVideoSizeMb": { "type": "number" },
+        "acceptedMediaExtensions": { 
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "cloudinaryCleanupMinutes": { "type": "number" }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "PendingUpdate": {
+      "title": "PendingUpdate",
+      "description": "Updates from managers requiring Super Admin approval",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string", "enum": ["product", "settings"] },
+        "targetId": { "type": "string" },
+        "data": { "type": "object" },
+        "requestedBy": { "type": "string" },
+        "requestedByEmail": { "type": "string" },
+        "requestedAt": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "resolvedBy": { "type": "string" },
+        "resolvedAt": { "type": "string" },
+        "assetToCleanup": {
+          "type": "object",
+          "properties": {
+            "publicId": { "type": "string" },
+            "resourceType": { "type": "string" }
+          }
+        }
+      },
+      "required": ["id", "type", "targetId", "data", "requestedBy", "requestedByEmail", "requestedAt", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Private user delivery profile and preferences strictly owned and accessed by {userId}"
+    },
+    "/admins/{adminId}": {
+      "schema": "AdminUser",
+      "description": "Admin staff registry with role-based access control (super_admin, manager, supervisor, sales_rep)"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Live farm produce inventory items managed by authorized administrators"
+    },
+    "/settings/{settingId}": {
+      "schema": "AppSettings",
+      "description": "Global site configuration settings including hero video and headings, managed by admins"
+    },
+    "/pending_updates/{updateId}": {
+      "schema": "PendingUpdate",
+      "description": "Staged changes awaiting Super Admin review"
+    }
+  }
+}

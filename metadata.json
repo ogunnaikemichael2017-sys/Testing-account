@@ -1,0 +1,6 @@
+{
+  "name": "FreshBasket Nigeria",
+  "description": "Nigeria's most trusted online grocery marketplace delivering farm-fresh produce, premium ingredients, subscription grocery plans, recipe kits, and ultra-fast delivery.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
